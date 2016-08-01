@@ -8,6 +8,10 @@ const factory = (Dialog, Calendar) => {
       active: PropTypes.bool,
       autoOk: PropTypes.bool,
       className: PropTypes.string,
+      locale: React.PropTypes.oneOfType([
+        React.PropTypes.string,
+        React.PropTypes.object
+      ]),
       maxDate: PropTypes.object,
       minDate: PropTypes.object,
       name: PropTypes.string,
@@ -15,6 +19,7 @@ const factory = (Dialog, Calendar) => {
       onEscKeyDown: PropTypes.func,
       onOverlayClick: PropTypes.func,
       onSelect: PropTypes.func,
+      sundayFirstDayOfWeek: React.PropTypes.bool,
       theme: PropTypes.shape({
         button: PropTypes.string,
         calendarWrapper: PropTypes.string,
@@ -100,7 +105,7 @@ const factory = (Dialog, Calendar) => {
               {this.state.date.getFullYear()}
             </span>
             <h3 className={theme.date} onClick={this.handleSwitchDisplay.bind(this, 'months')}>
-              {time.getShortDayOfWeek(this.state.date.getDay())}, {time.getShortMonth(this.state.date)} {this.state.date.getDate()}
+              {time.getShortDayOfWeek(this.state.date.getDay(), this.props.locale)}, {time.getShortMonth(this.state.date, this.props.locale)} {this.state.date.getDate()}
             </h3>
           </header>
 
@@ -111,7 +116,9 @@ const factory = (Dialog, Calendar) => {
               minDate={this.props.minDate}
               onChange={this.handleCalendarChange}
               selectedDate={this.state.date}
-              theme={this.props.theme} />
+              theme={this.props.theme}
+              locale={this.props.locale}
+              sundayFirstDayOfWeek={this.props.sundayFirstDayOfWeek} />
           </div>
         </Dialog>
       );
